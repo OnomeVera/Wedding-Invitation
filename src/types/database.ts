@@ -18,7 +18,7 @@ export interface Guest {
   id: string
   full_name: string
   email: string | null
-  phone: string | null
+  phone_e164: string
   category: string
   allocated_guests: number
   invitation_status: 'not_sent' | 'sent' | 'viewed' | 'revoked'

@@ -68,13 +68,13 @@ export function InvitationManagement() {
   }
 
   const shareWhatsApp = (r: InviteRecord) => {
-    if (!r.token || !r.guest.phone) {
+    if (!r.token || !r.guest.phone_e164) {
       toast.error('Guest needs a phone number and active invitation')
       return
     }
     const url = buildInvitationUrl(r.token)
     const msg = buildWhatsAppMessage(r.guest.full_name, url)
-    window.open(buildWhatsAppUrl(r.guest.phone, msg), '_blank')
+    window.open(buildWhatsAppUrl(r.guest.phone_e164, msg), '_blank')
   }
 
   const sendEmail = async (r: InviteRecord) => {
@@ -155,8 +155,8 @@ export function InvitationManagement() {
                   <td className="px-4 py-3">
                     <p className="font-medium" style={{ color: '#292820' }}>{r.guest.full_name}</p>
                     <div className="flex gap-2 mt-0.5 flex-wrap">
-                      {r.guest.phone && (
-                        <p style={{ color: 'rgba(41,40,32,0.4)', fontSize: '0.72rem' }}>{r.guest.phone}</p>
+                      {r.guest.phone_e164 && (
+                        <p style={{ color: 'rgba(41,40,32,0.4)', fontSize: '0.72rem' }}>{r.guest.phone_e164}</p>
                       )}
                       {r.guest.email && (
                         <p style={{ color: 'rgba(41,40,32,0.4)', fontSize: '0.72rem' }}>{r.guest.email}</p>
@@ -210,11 +210,11 @@ export function InvitationManagement() {
                           <button
                             onClick={() => shareWhatsApp(r)}
                             className="p-1.5 rounded-sm"
-                            title={r.guest.phone ? 'Send via WhatsApp' : 'No phone number on record'}
+                            title={r.guest.phone_e164 ? 'Send via WhatsApp' : 'No phone number on record'}
                             style={{
-                              color: r.guest.phone ? '#25D366' : 'rgba(41,40,32,0.2)',
+                              color: r.guest.phone_e164 ? '#25D366' : 'rgba(41,40,32,0.2)',
                               border: 'none', background: 'none',
-                              cursor: r.guest.phone ? 'pointer' : 'not-allowed',
+                              cursor: r.guest.phone_e164 ? 'pointer' : 'not-allowed',
                             }}
                           >
                             <MessageCircle size={14} />

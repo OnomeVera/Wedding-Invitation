@@ -83,7 +83,7 @@ export function GuestManagement() {
     setForm({
       full_name: g.full_name,
       email: g.email ?? '',
-      phone: g.phone ?? '',
+      phone: g.phone_e164 ?? '',
       category: g.category,
       allocated_guests: g.allocated_guests,
     })
@@ -91,13 +91,26 @@ export function GuestManagement() {
   }
 
   const saveGuest = async () => {
-    if (!form.full_name.trim()) { toast.error('Name is required'); return }
-    if (form.allocated_guests < 1) { toast.error('Must allocate at least 1 guest'); return }
+  if (!form.full_name.trim()) {
+    toast.error('Name is required')
+    return
+  }
+
+  if (!form.phone.trim()) {
+    toast.error('Phone number is required')
+    return
+  }
+
+  if (form.allocated_guests < 1) {
+    toast.error('Must allocate at least 1 guest')
+    return
+  }
+
 
     const payload = {
       full_name: form.full_name.trim(),
       email: form.email || null,
-      phone: form.phone || null,
+      phone_e164: form.phone.trim(),
       category: form.category,
       allocated_guests: Number(form.allocated_guests),
     }
@@ -156,13 +169,13 @@ export function GuestManagement() {
   }
 
   const shareWhatsApp = (guest: GuestWithToken) => {
-    if (!guest.token || !guest.phone) {
+    if (!guest.token || !guest.phone_e164) {
       toast.error('Guest needs a phone number and active invitation')
       return
     }
     const url = buildInvitationUrl(guest.token)
     const msg = buildWhatsAppMessage(guest.full_name, url)
-    window.open(buildWhatsAppUrl(guest.phone, msg), '_blank')
+    window.open(buildWhatsAppUrl(guest.phone_e164, msg), '_blank')
   }
 
   const sendEmail = async (guest: GuestWithToken) => {
@@ -190,7 +203,7 @@ export function GuestManagement() {
     const toInsert = rows.map((r) => ({
       full_name: r['full_name'] || r['name'] || '',
       email: r['email'] || null,
-      phone: r['phone'] || null,
+      phone_e164: r['phone']?.trim() || '',
       category: r['category'] || 'General',
       allocated_guests: Number(r['allocated_guests'] || r['allocation'] || 1),
     })).filter((r) => r.full_name)
@@ -206,7 +219,7 @@ export function GuestManagement() {
       filtered.map((g) => ({
         name: g.full_name,
         email: g.email ?? '',
-        phone: g.phone ?? '',
+        phone: g.phone_e164 ?? '',
         category: g.category,
         allocation: g.allocated_guests,
         status: g.invitation_status,
@@ -216,7 +229,7 @@ export function GuestManagement() {
     )
   }
 
-  const GuestFormFields = () => (
+  const renderGuestFormFields = () => (
     <div className="space-y-4">
       <div>
         <label className="form-label">Full Name *</label>
@@ -373,8 +386,8 @@ export function GuestManagement() {
                             <button
                               onClick={() => shareWhatsApp(g)}
                               className="p-1.5 rounded-sm"
-                              title={g.phone ? 'Send via WhatsApp' : 'No phone number'}
-                              style={{ color: g.phone ? '#25D366' : 'rgba(41,40,32,0.2)', border: 'none', background: 'none', cursor: g.phone ? 'pointer' : 'not-allowed' }}
+                              title={g.phone_e164 ? 'Send via WhatsApp' : 'No phone number'}
+                              style={{ color: g.phone_e164 ? '#25D366' : 'rgba(41,40,32,0.2)', border: 'none', background: 'none', cursor: g.phone_e164 ? 'pointer' : 'not-allowed' }}
                             >
                               <MessageCircle size={13} />
                             </button>
@@ -442,12 +455,12 @@ export function GuestManagement() {
 
       {/* Add Guest Modal */}
       <Modal isOpen={showAdd} onClose={() => setShowAdd(false)} title="Add New Guest">
-        <GuestFormFields />
+        {renderGuestFormFields()}
       </Modal>
 
       {/* Edit Guest Modal */}
       <Modal isOpen={!!editGuest} onClose={() => setEditGuest(null)} title="Edit Guest">
-        <GuestFormFields />
+        {renderGuestFormFields()}
       </Modal>
     </div>
   )
