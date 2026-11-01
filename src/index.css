@@ -1,0 +1,497 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --burnt-orange: #B85C38;
+    --olive-green: #55613D;
+    --deep-forest: #303D2D;
+    --warm-ivory: #F7F1E7;
+    --champagne-gold: #C6A46A;
+    --antique-gold: #A88648;
+    --charcoal: #292820;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--warm-ivory);
+    color: var(--charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--warm-ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--champagne-gold);
+  border-radius: 3px;
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+============================================================ */
+.font-cormorant { font-family: 'Cormorant Garamond', serif; }
+.font-playfair  { font-family: 'Playfair Display', serif; }
+.font-allura    { font-family: 'Allura', cursive; }
+.font-dm        { font-family: 'DM Sans', sans-serif; }
+
+/* ============================================================
+   COLOUR UTILITIES
+============================================================ */
+.text-burnt-orange   { color: var(--burnt-orange); }
+.text-olive-green    { color: var(--olive-green); }
+.text-deep-forest    { color: var(--deep-forest); }
+.text-warm-ivory     { color: var(--warm-ivory); }
+.text-champagne-gold { color: var(--champagne-gold); }
+.text-antique-gold   { color: var(--antique-gold); }
+.text-charcoal       { color: var(--charcoal); }
+
+.bg-burnt-orange   { background-color: var(--burnt-orange); }
+.bg-olive-green    { background-color: var(--olive-green); }
+.bg-deep-forest    { background-color: var(--deep-forest); }
+.bg-warm-ivory     { background-color: var(--warm-ivory); }
+.bg-champagne-gold { background-color: var(--champagne-gold); }
+.bg-antique-gold   { background-color: var(--antique-gold); }
+.bg-charcoal       { background-color: var(--charcoal); }
+
+/* ============================================================
+   GOLD DIVIDER
+============================================================ */
+.gold-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem auto;
+}
+.gold-divider::before,
+.gold-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--champagne-gold), transparent);
+}
+.gold-divider-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--champagne-gold);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   ORNAMENTAL BORDER
+============================================================ */
+.ornamental-border {
+  border: 1px solid var(--champagne-gold);
+  position: relative;
+}
+.ornamental-border::before,
+.ornamental-border::after {
+  content: '✦';
+  position: absolute;
+  color: var(--champagne-gold);
+  font-size: 0.75rem;
+  background: var(--warm-ivory);
+  padding: 0 4px;
+}
+.ornamental-border::before {
+  top: -0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ornamental-border::after {
+  bottom: -0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============================================================
+   GLASS CARD
+============================================================ */
+.glass-card {
+  background: rgba(247, 241, 231, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(198, 164, 106, 0.3);
+  border-radius: 2px;
+}
+
+/* ============================================================
+   INVITATION SEAL ANIMATION
+============================================================ */
+@keyframes sealPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(198, 164, 106, 0.4); }
+  50%       { transform: scale(1.02); box-shadow: 0 0 0 20px rgba(198, 164, 106, 0); }
+}
+.seal-pulse {
+  animation: sealPulse 3s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up { animation: fadeInUp 0.8s ease-out both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in { animation: fadeIn 1s ease-out both; }
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--antique-gold) 0%,
+    var(--champagne-gold) 40%,
+    #e8d5a3 50%,
+    var(--champagne-gold) 60%,
+    var(--antique-gold) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ============================================================
+   COUNTDOWN NUMBERS
+============================================================ */
+.countdown-card {
+  background: var(--deep-forest);
+  color: var(--warm-ivory);
+  border: 1px solid rgba(198, 164, 106, 0.4);
+  border-radius: 4px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  min-width: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.countdown-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--champagne-gold), transparent);
+}
+
+/* ============================================================
+   GALLERY LIGHTBOX
+============================================================ */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(41, 40, 32, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   INVITATION CARD PRINT STYLES
+============================================================ */
+@media print {
+  .no-print { display: none !important; }
+  .print-card {
+    page-break-inside: avoid;
+    border: 2px solid var(--champagne-gold);
+    padding: 2rem;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE TABLE
+============================================================ */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ============================================================
+   ADMIN SIDEBAR
+============================================================ */
+.admin-sidebar {
+  background: var(--deep-forest);
+  min-height: 100vh;
+  transition: width 0.3s ease;
+}
+
+/* ============================================================
+   BUTTON VARIANTS
+============================================================ */
+.btn-primary {
+  background: var(--burnt-orange);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s ease;
+}
+.btn-primary:hover {
+  background: #9e4d2d;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(184, 92, 56, 0.35);
+}
+
+.btn-gold {
+  background: transparent;
+  color: var(--champagne-gold);
+  border: 1px solid var(--champagne-gold);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s ease;
+}
+.btn-gold:hover {
+  background: var(--champagne-gold);
+  color: var(--charcoal);
+  transform: translateY(-1px);
+}
+
+.btn-forest {
+  background: var(--deep-forest);
+  color: var(--warm-ivory);
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s ease;
+}
+.btn-forest:hover {
+  background: var(--olive-green);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   SECTION HEADING
+============================================================ */
+.section-heading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.section-heading .eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--champagne-gold);
+  margin-bottom: 1rem;
+  display: block;
+}
+.section-heading h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1.1;
+}
+
+/* ============================================================
+   FLORAL DECORATION SVG COLORS
+============================================================ */
+.floral-burnt { fill: var(--burnt-orange); }
+.floral-olive { fill: var(--olive-green); }
+.floral-gold  { fill: var(--champagne-gold); }
+.floral-forest { fill: var(--deep-forest); }
+
+/* ============================================================
+   FORM STYLES
+============================================================ */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(198, 164, 106, 0.4);
+  background: rgba(247, 241, 231, 0.6);
+  color: var(--charcoal);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  outline: none;
+  border-radius: 2px;
+}
+.form-input:focus {
+  border-color: var(--champagne-gold);
+  background: white;
+}
+.form-input::placeholder {
+  color: rgba(41, 40, 32, 0.4);
+}
+
+.form-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--olive-green);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+/* ============================================================
+   STAT CARD
+============================================================ */
+.stat-card {
+  background: white;
+  border: 1px solid rgba(198, 164, 106, 0.25);
+  border-radius: 4px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+/* ============================================================
+   TIMELINE
+============================================================ */
+.timeline-item {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 1.375rem;
+  top: 2.5rem;
+  bottom: -1rem;
+  width: 1px;
+  background: linear-gradient(180deg, var(--champagne-gold), transparent);
+}
+.timeline-item:last-child::before { display: none; }
+.timeline-dot {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--champagne-gold);
+  background: var(--warm-ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--champagne-gold);
+}
+
+/* ============================================================
+   RSVP RADIO CARD
+============================================================ */
+.rsvp-radio-card {
+  border: 2px solid rgba(198, 164, 106, 0.3);
+  border-radius: 4px;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.rsvp-radio-card:hover {
+  border-color: var(--champagne-gold);
+  background: rgba(198, 164, 106, 0.08);
+}
+.rsvp-radio-card.selected-accept {
+  border-color: var(--olive-green);
+  background: rgba(85, 97, 61, 0.08);
+}
+.rsvp-radio-card.selected-decline {
+  border-color: var(--burnt-orange);
+  background: rgba(184, 92, 56, 0.08);
+}
+
+/* ============================================================
+   MODAL
+============================================================ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(41, 40, 32, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-content {
+  background: white;
+  border: 1px solid rgba(198, 164, 106, 0.3);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+.nav-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--champagne-gold);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.nav-link:hover { color: var(--antique-gold); }
+.nav-link:hover::after { transform: scaleX(1); }
